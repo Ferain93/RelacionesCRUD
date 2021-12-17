@@ -19,7 +19,12 @@
     <p>RELEASE DATE: <%= movie.release_date %> </p>
     <br>
     <section>
-        <!--Aquí debe colocar los botones de Modificar - Borrar y Listado de Películas-->
+        <a href="/movies/edit/<%= movie.id%> ">
+            <button class="botonAgregar">Modificar</button>
+        </a>
+        <a href="/movies/delete/<%= movie.id%> ">
+            <button class="botonVolver">Borrar</button>
+        </a>
     </section>
 
 </body>

@@ -33,7 +33,7 @@ module.exports = (sequelize, dataTypes) => {
     const Genre = sequelize.define(alias, cols, config);
 
     Genre.associate = function(models){
-        Genre.belongsTo(models.Movie, {
+        Genre.hasMany(models.Movie, {
             foreignKey: "genre_id",
             as: "movies"
         })

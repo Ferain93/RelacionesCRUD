@@ -52,22 +52,59 @@ const moviesController = {
     },
     //Aqui dispongo las rutas para trabajar con el CRUD
     add: function (req, res) {
-        
+        db.Genre.findAll().then(genres => {
+            res.render('moviesAdd', {allGenres: genres})
+        })
     },
     create: function (req,res) {
-
+        db.Movie.create({
+            title: req.body.title,
+            rating: req.body.rating,
+            awards: req.body.awards,
+            release_date: req.body.release_date,
+            length: req.body.length,
+            genre_id: req.body.genre_id
+        })
+        res.redirect('/movies');
     },
     edit: function(req,res) {
+        let pedidoMovie = db.Movie.findByPk(req.params.id);
+        let pedidoGenre = db.Genre.findAll();
 
+        Promise.all([pedidoMovie, pedidoGenre])
+        .then(([movie, genres]) => {
+            res.render('moviesEdit', {Movie:movie, allGenres: genres})
+        })
     },
     update: function (req,res) {
-
+        db.Movie.update({
+            title: req.body.title,
+            rating: req.body.rating,
+            awards: req.body.awards,
+            release_date: req.body.release_date,
+            length: req.body.length,
+            genre_id: req.body.genre_id
+        }, {
+            where: {
+                id: req.params.id
+            }
+        })
+        res.redirect('/movies/detail/'+ req.params.id);
     },
     delete: function (req,res) {
+        db.Movie.findByPk(req.params.id)     
 
+            .then(function (movie) {
+            res.render('moviesDelete', {Movie:movie})
+        })
     },
     destroy: function (req,res) {
-
+        db.Movie.destroy({
+            where: {
+            id: req.params.id
+        }
+    })
+        res.redirect('/movies')
     }
 }
 
